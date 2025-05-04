@@ -20,7 +20,7 @@ const config = {
         acceptOnContinue: false,
         showFloatingButton: true,
         showAdminButton: false,
-        floatingButtonPosition: 'left',
+        floatingButtonPosition: 'right',
         adminButtonPosition: 'left',
         bannerPosition: 'left',
         bannerAnimation: {
