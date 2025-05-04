@@ -79,7 +79,7 @@ const config = {
         storageDays: 365,
         showDashboard: true,
         passwordProtect: true,
-        dashboardPassword: 'admin123',
+        dashboardPassword: 'yesyoudeserve',
         passwordCookieDuration: 365,
         trackPageViews: true,
         trackEvents: true,
