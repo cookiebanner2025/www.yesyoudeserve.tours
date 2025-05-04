@@ -1,6 +1,6 @@
 const config = {
     // Domain restriction
-    allowedDomains: ['dev-rpractice.pantheonsite.io', 'www.yesyoudeserve.tours'],
+    allowedDomains: ['www.yesyoudeserve.tours'],
     
     // Microsoft UET Configuration
     uetConfig: {
@@ -19,7 +19,7 @@ const config = {
         acceptOnScroll: false,
         acceptOnContinue: false,
         showFloatingButton: true,
-        showAdminButton: true,
+        showAdminButton: false,
         floatingButtonPosition: 'left',
         adminButtonPosition: 'left',
         bannerPosition: 'left',
