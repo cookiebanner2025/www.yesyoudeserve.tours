@@ -20,7 +20,7 @@ const config = {
         acceptOnContinue: false,
         showFloatingButton: true,
         showAdminButton: false,
-        floatingButtonPosition: 'right',
+        floatingButtonPosition: 'left',
         adminButtonPosition: 'left',
         bannerPosition: 'left',
         bannerAnimation: {
@@ -2857,6 +2857,12 @@ function injectConsentHTML(detectedCookies, language = 'en') {
             padding: 8px 10px;
         }
     }
+
+    @media (max-width: 767px) {
+    #cookieFloatingButton {
+        display: none !important;
+    }
+}
     </style>`;
     
     document.body.insertAdjacentHTML('beforeend', html);
