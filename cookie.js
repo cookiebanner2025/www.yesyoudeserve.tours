@@ -1,6 +1,28 @@
 const config = {
     // Domain restriction
-    allowedDomains: ['www.yesyoudeserve.tours'],
+    allowedDomains: [],
+
+
+ // NEW: URL Filter Configuration
+    urlFilter: {
+        enabled: true, // Set to true to enable URL filtering
+        showOnUrls: [
+            // Add your specific URLs here
+            '/chat/', // Exact path
+            '/example', // Exact path
+            '/example', // Exact path
+            '/blog/*', // Wildcard - any URL starting with /blog/
+            '*special-page*', // Contains - any URL with 'special-page' in it
+            'https://www.yesyoudeserve.tours/exact-full-url' // Full URL
+        ],
+        // OR use this alternative approach if you prefer to hide on specific URLs
+        hideOnUrls: [
+            // '/home',
+            // '/products/*'
+        ]
+    },
+
+    
     
     // Microsoft UET Configuration
     uetConfig: {
@@ -2936,6 +2958,15 @@ function shouldShowBanner() {
 
 // Main initialization function
 function initializeCookieConsent(detectedCookies, language) {
+
+// NEW: Check if we should show on this URL
+    if (!shouldShowOnCurrentUrl()) {
+        console.log('Cookie consent banner disabled for this URL');
+        return; // Don't show the banner on this URL
+    }
+
+
+    
     const consentGiven = getCookie('cookie_consent');
     
     // Check if banner should be shown based on schedule
@@ -3404,6 +3435,84 @@ function loadCookiesAccordingToConsent(consentData) {
         loadPerformanceCookies();
     }
 }
+
+
+
+
+
+
+// Check if current URL matches any of the specified patterns
+function shouldShowOnCurrentUrl() {
+    if (!config.urlFilter.enabled) {
+        return true; // Show on all URLs if filtering is disabled
+    }
+    
+    const currentUrl = window.location.href;
+    const currentPath = window.location.pathname;
+    
+    // Check hide list first (if any entries exist)
+    if (config.urlFilter.hideOnUrls && config.urlFilter.hideOnUrls.length > 0) {
+        for (const pattern of config.urlFilter.hideOnUrls) {
+            if (matchesUrlPattern(currentUrl, currentPath, pattern)) {
+                return false; // Hide on this URL
+            }
+        }
+        return true; // Show if not in hide list
+    }
+    
+    // Check show list (if any entries exist)
+    if (config.urlFilter.showOnUrls && config.urlFilter.showOnUrls.length > 0) {
+        for (const pattern of config.urlFilter.showOnUrls) {
+            if (matchesUrlPattern(currentUrl, currentPath, pattern)) {
+                return true; // Show on this URL
+            }
+        }
+        return false; // Don't show if not in show list
+    }
+    
+    return true; // Default to showing if no filters are defined
+}
+
+// Helper function to match URL patterns
+function matchesUrlPattern(url, path, pattern) {
+    // Exact match for full URL
+    if (pattern.startsWith('http') && url === pattern) {
+        return true;
+    }
+    
+    // Exact path match
+    if (pattern.startsWith('/') && !pattern.includes('*') && path === pattern) {
+        return true;
+    }
+    
+    // Wildcard path match (starts with)
+    if (pattern.endsWith('/*') && path.startsWith(pattern.slice(0, -2))) {
+        return true;
+    }
+    
+    // Contains match (anywhere in URL)
+    if (pattern.startsWith('*') && pattern.endsWith('*') && 
+        url.includes(pattern.slice(1, -1))) {
+        return true;
+    }
+    
+    // Contains match (anywhere in path)
+    if (pattern.startsWith('*') && pattern.endsWith('*') && 
+        path.includes(pattern.slice(1, -1))) {
+        return true;
+    }
+    
+    return false;
+}
+
+
+
+
+
+
+
+
+
 
 // Update consent mode for both Google and Microsoft UET
 // Update consent mode for both Google and Microsoft UET
