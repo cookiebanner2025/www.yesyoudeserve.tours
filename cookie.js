@@ -8,7 +8,7 @@ const config = {
         enabled: true, // Set to true to enable URL filtering
         showOnUrls: [
             // Add your specific URLs here
-            '/chat/', // Exact path
+            '/example/', // Exact path
             '/example', // Exact path
             '/example', // Exact path
             '/blog/*', // Wildcard - any URL starting with /blog/
@@ -17,7 +17,7 @@ const config = {
         ],
         // OR use this alternative approach if you prefer to hide on specific URLs
         hideOnUrls: [
-            // '/home',
+            '/chat/',
             // '/products/*'
         ]
     },
